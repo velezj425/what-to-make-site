@@ -33,6 +33,7 @@ CREATE TABLE Recipes (
 CREATE TABLE UserSavedRecipes (
     userID varchar(255),
     recipeID varchar(255),
+    rating integer(1)
     PRIMARY KEY (userID, recipeID),
     FOREIGN KEY (userID) REFERENCES Users(userID),
     FOREIGN KEY (recipeID) REFERENCES Recipes(recipeID)
