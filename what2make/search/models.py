@@ -1,32 +1,31 @@
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import User
 from django.db import models
 
+# ingredient type model
+class Ing_Type(models.Model):
+    name = models.CharField(max_length=10)
 
-# saved web-sites
-class Site(models.Model):
-    name = models.CharField(max_length=200)
-
-# types of ingredients
-class IngredientType(models.Model):
-    type_name = models.CharField(max_length=200)
-
-# ingredients
+# ingredient model
 class Ingredient(models.Model):
-    ing_name = models.CharField(max_length=200)
-    type_name = models.ForeignKey(IngredientType, on_delete=models.CASCADE,)
+    name = models.CharField(max_length=20)
+    ing_type = models.ForeignKey(Ing_Type, on_delete=models.CASCADE)
+    cost = models.PositiveSmallIntegerField()
 
-# saved recipes
+# recipes model
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
     url = models.URLField()
-    site = models.ForeignKey(Site, on_delete=models.CASCADE,)
     ingredients = models.ManyToManyField(Ingredient)
 
-# users
-class User(models.Model):
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    email = models.EmailField()
-    recipes = models.ManyToManyField(Recipe)
-    blocked_ingredients = models.ManyToManyField(Ingredient)
+# user profile model
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    saved = models.ManyToManyField(Recipe)
+    blocked = models.ManyToManyField(Ingredient)
+
+# rating model
+class Rating(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    recipe = models.OneToOneField(Recipe, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField()
