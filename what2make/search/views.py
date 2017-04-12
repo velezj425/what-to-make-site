@@ -5,3 +5,9 @@ def index(request):
 
 def profile(request, profile_id):
     return HttpResponse("This is the profile for user %s." %profile_id)
+
+def query(request, profile_id):
+    return HttpResponse("This is the search page.")
+
+def result(request, profile_id):
+    return HttpResponse("This is the result page.")
