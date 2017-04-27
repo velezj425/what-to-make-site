@@ -43,10 +43,16 @@ def profile(request):
 
 # search page view
 def query(request):
+    user = request.user
+    for profile in Profile.objects.all():
+        if profile.user == user:
+            user_profile = profile
+    block_list = user_profile.blocked.all()
     template = loader.get_template('search/search.html')
     type_list = Ing_Type.objects.all()
     ingredient_list = Ingredient.objects.all()
     context ={
+        'block_list': block_list,
         'type_list': type_list,
         'ingredient_list': ingredient_list
     }

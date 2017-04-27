@@ -3,11 +3,17 @@
         <title>What to Make | Search</title>
     </head>
     <body>
+        <div class='title'>
+            <h1>What to Make</h1>
+            <h3>Search</h3>
+        </div>
+        <a href="{% url 'profile' %}"><button type="button">Profile</button></a>
+        <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
         <div id='ingList'>
             {% for ing_type in type_list %}
                 <h5>{{ ing_type }}</h5>
                 {% for ing in ingredient_list %}
-                    {% if ing.ing_type == ing_type %}
+                    {% if ing.ing_type == ing_type and ing not in block_list%}
                         <button type="button">{{ ing }}</button>
                     {% endif %}
                 {% endfor %}
