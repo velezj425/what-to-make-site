@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>What to Make | Profile</title>
+    </head>
+    <body>
+        <div class='title'>
+            <h1>What to Make</h1>
+            <h3>{{ user.username }}'s Profile</h3>
+        </div>
+        <a href="{% url 'query' %}"><button type="button">Search Recipes</button></a>
+        <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
+    </body>
+</html>

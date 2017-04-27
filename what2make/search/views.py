@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 from .forms import LoginForm, NewUserForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from search.models import *
 
@@ -28,7 +28,11 @@ def index(request):
 # profile page view
 def profile(request):
     user = request.user
-    return HttpResponse("This is the profile for user %s." %user.id)
+    template = loader.get_template('search/profile.html')
+    context = {
+        'user': user
+    }
+    return HttpResponse(template.render(context,request))
 
 # search page view
 def query(request):
@@ -54,14 +58,14 @@ def signup(request):
             user.authenticate(username=username, password=password)
             if user is None:
                 user = User.objects.create_user(username,email,password)
-                user.firs_name = first_name
+                user.first_name = first_name
                 user.last_name = last_name
                 user.save()
-                return render("Signed-up")
+                return redirect('profile')
             else: 
-                return render("already registered")
+                return redirect('index')
         else:
-            return render("invalid")
+            return HttpResponse("invalid")
     else:
         form = NewUserForm()
     return render(request,'search/signup.html',{'form':form})
@@ -69,3 +73,4 @@ def signup(request):
 # logout
 def logout_view(request):
     logout(request)
+    return redirect('index')
