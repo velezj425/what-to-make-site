@@ -8,11 +8,11 @@
             <h3>Find your Recipe!</h3>
         </div>
         <div class='introBody'>
-            <form action="" method="post">
-                {{form}}
+            <form method="post">
+                {{form.as_p}}
                 <input type="submit" value="Log-In">
             </form>
-            <p>Not signed up? <a href="">Start cooking today!</a></p>
+            <p>Not signed up? <a href="{% url 'signup' %}">Start cooking today!</a></p>
         </div>
     </body>
 </html>
