@@ -4,8 +4,13 @@
     </head>
     <body>
         <div id='ingList'>
-            {% for ing in ingredient_list %}
-                <button type="button">{{ ing }}</button>
+            {% for ing_type in type_list %}
+                <h5>{{ ing_type }}</h5>
+                {% for ing in ingredient_list %}
+                    {% if ing.ing_type == ing_type %}
+                        <button type="button">{{ ing }}</button>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
         </div>
         <script>

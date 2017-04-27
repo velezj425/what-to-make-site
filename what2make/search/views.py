@@ -29,8 +29,10 @@ def profile(request, profile_id):
 
 def query(request):
     template = loader.get_template('search/search.html')
+    type_list = Ing_Type.objects.all()
     ingredient_list = Ingredient.objects.all()
     context ={
+        'type_list': type_list,
         'ingredient_list': ingredient_list
     }
     return HttpResponse(template.render(context,request))
