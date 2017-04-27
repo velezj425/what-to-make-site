@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from search.models import *
 
+# login page view
 def index(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -15,7 +16,7 @@ def index(request):
             user = authenticate(username=username,password=password)
             if user is not None:
                 login(request,user)
-                return HttpResponse("user")
+                return redirect('profile')
             else:
                 return HttpResponse("not a user")
         else:
@@ -24,9 +25,12 @@ def index(request):
         form = LoginForm()
     return render(request,'search/index.html',{'form':form})
 
-def profile(request, profile_id):
-    return HttpResponse("This is the profile for user %s." %profile_id)
+# profile page view
+def profile(request):
+    user = request.user
+    return HttpResponse("This is the profile for user %s." %user.id)
 
+# search page view
 def query(request):
     template = loader.get_template('search/search.html')
     type_list = Ing_Type.objects.all()
@@ -37,9 +41,7 @@ def query(request):
     }
     return HttpResponse(template.render(context,request))
 
-def result(request, profile_id):
-    return HttpResponse("This is the result page.")
-
+# sign-up page view
 def signup(request):
     if request.method == 'POST':
         form = NewUserForm(request.POST)
@@ -64,5 +66,6 @@ def signup(request):
         form = NewUserForm()
     return render(request,'search/signup.html',{'form':form})
 
+# logout
 def logout_view(request):
     logout(request)
