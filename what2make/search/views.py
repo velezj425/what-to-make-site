@@ -9,26 +9,26 @@ def index(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            form.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username,password=password)
-            login(request,user)
-            return redirect('profile', user_id)
+            if user is not None:
+                login(request,user)
+                return render(request,'search/search.html')
+            else:
+                return HttpResponse("not a user")
         else:
-            return render("invalid form")
+            return HttpResponse("invalid form")
     else:
         form = LoginForm()
     return render(request,'search/index.html',{'form':form})
 
-@login_required
 def profile(request, profile_id):
     return HttpResponse("This is the profile for user %s." %profile_id)
 
 def query(request):
     return render(request, 'search/search.html')
 
-@login_required
 def result(request, profile_id):
     return HttpResponse("This is the result page.")
 
