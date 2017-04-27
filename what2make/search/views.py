@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import LoginForm, NewUserForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from search.models import *
 
 def index(request):
     if request.method == 'POST':
@@ -14,7 +15,7 @@ def index(request):
             user = authenticate(username=username,password=password)
             if user is not None:
                 login(request,user)
-                return render(request,'search/search.html')
+                return HttpResponse("user")
             else:
                 return HttpResponse("not a user")
         else:
@@ -27,7 +28,12 @@ def profile(request, profile_id):
     return HttpResponse("This is the profile for user %s." %profile_id)
 
 def query(request):
-    return render(request, 'search/search.html')
+    template = loader.get_template('search/search.html')
+    ingredient_list = Ingredient.objects.all()
+    context ={
+        'ingredient_list': ingredient_list
+    }
+    return HttpResponse(template.render(context,request))
 
 def result(request, profile_id):
     return HttpResponse("This is the result page.")
@@ -36,17 +42,20 @@ def signup(request):
     if request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
-            form.save()
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
-            user = User.objects.create_user(username,email,password)
-            user.firs_name = first_name
-            user.last_name = last_name
-            user.save()
-            return render("Signed-up")
+            user.authenticate(username=username, password=password)
+            if user is None:
+                user = User.objects.create_user(username,email,password)
+                user.firs_name = first_name
+                user.last_name = last_name
+                user.save()
+                return render("Signed-up")
+            else: 
+                return render("already registered")
         else:
             return render("invalid")
     else:

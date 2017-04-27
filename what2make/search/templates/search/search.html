@@ -3,6 +3,11 @@
         <title>What to Make | Search</title>
     </head>
     <body>
+        <div id='ingList'>
+            {% for ing in ingredient_list %}
+                <button type="button">{{ ing }}</button>
+            {% endfor %}
+        </div>
         <script>
             (function() {
                 var cx = '006834900479128639157:ow0w0hxfk7m';
@@ -14,6 +19,7 @@
                 s.parentNode.insertBefore(gcse, s);
             })();
         </script>
+        <gcse:searchresults-only></gcse:searchresults-only>
         <gcse:search></gcse:search>
     </body>
 </html>
