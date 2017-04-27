@@ -28,9 +28,16 @@ def index(request):
 # profile page view
 def profile(request):
     user = request.user
+    for profile in Profile.objects.all():
+        if profile.user == user:
+            user_profile = profile
+    saved_list = user_profile.saved.all()
+    block_list = user_profile.blocked.all()
     template = loader.get_template('search/profile.html')
     context = {
-        'user': user
+        'user': user,
+        'saved_list': saved_list,
+        'block_list': block_list
     }
     return HttpResponse(template.render(context,request))
 

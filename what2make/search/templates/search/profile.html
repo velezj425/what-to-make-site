@@ -9,5 +9,13 @@
         </div>
         <a href="{% url 'query' %}"><button type="button">Search Recipes</button></a>
         <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
+        <h5>Saved Recipes</h5>
+        {% for saved in saved_list %}
+            <p>{{ saved }}</p>
+        {% endfor %}
+        <h5>Blocked Ingredients</h5>
+        {% for blocked in block_list %}
+            <p>{{ blocked }}</p>
+        {% endfor %}
     </body>
 </html>
