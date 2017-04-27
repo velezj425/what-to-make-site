@@ -8,6 +8,7 @@
             <h3>Sign-Up</h3>
         </div>
         <div class='form'>
+            {% csrf_token %}
             <form method="POST">
                 {{form.as_p}}
                 <input type="submit" value="Sign-Up">

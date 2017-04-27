@@ -1,31 +1,56 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import LoginForm, NewUserForm
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 def index(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/signup/')
-    form = LoginForm(request.POST or None)
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username,password=password)
+            login(request,user)
+            return redirect('profile', user_id)
+        else:
+            return render("invalid form")
+    else:
+        form = LoginForm()
     return render(request,'search/index.html',{'form':form})
 
 @login_required
 def profile(request, profile_id):
     return HttpResponse("This is the profile for user %s." %profile_id)
 
-@login_required
-def query(request, profile_id):
-    return HttpResponse("This is the search page.")
+def query(request):
+    return render(request, 'search/search.html')
 
 @login_required
 def result(request, profile_id):
     return HttpResponse("This is the result page.")
 
 def signup(request):
-    form = NewUserForm(request.POST or None)
+    if request.method == 'POST':
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            user = User.objects.create_user(username,email,password)
+            user.firs_name = first_name
+            user.last_name = last_name
+            user.save()
+            return render("Signed-up")
+        else:
+            return render("invalid")
+    else:
+        form = NewUserForm()
     return render(request,'search/signup.html',{'form':form})
 
 def logout_view(request):
