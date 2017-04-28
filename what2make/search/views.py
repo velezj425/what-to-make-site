@@ -8,6 +8,8 @@ from search.models import *
 
 # login page view
 def index(request):
+    if request.user.is_authenticated():
+        return redirect('profile')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -27,39 +29,47 @@ def index(request):
 
 # profile page view
 def profile(request):
-    user = request.user
-    for profile in Profile.objects.all():
-        if profile.user == user:
-            user_profile = profile
-    saved_list = user_profile.saved.all()
-    block_list = user_profile.blocked.all()
-    template = loader.get_template('search/profile.html')
-    context = {
-        'user': user,
-        'saved_list': saved_list,
-        'block_list': block_list
-    }
-    return HttpResponse(template.render(context,request))
+    if request.user.is_authenticated():
+        user = request.user
+        for profile in Profile.objects.all():
+            if profile.user == user:
+                user_profile = profile
+        saved_list = user_profile.saved.all()
+        block_list = user_profile.blocked.all()
+        template = loader.get_template('search/profile.html')
+        context = {
+            'user': user,
+            'saved_list': saved_list,
+            'block_list': block_list
+        }
+        return HttpResponse(template.render(context,request))
+    else:
+        return redirect('index')
 
 # search page view
 def query(request):
-    user = request.user
-    for profile in Profile.objects.all():
-        if profile.user == user:
-            user_profile = profile
-    block_list = user_profile.blocked.all()
-    template = loader.get_template('search/search.html')
-    type_list = Ing_Type.objects.all()
-    ingredient_list = Ingredient.objects.all()
-    context ={
-        'block_list': block_list,
-        'type_list': type_list,
-        'ingredient_list': ingredient_list
-    }
-    return HttpResponse(template.render(context,request))
+    if request.user.is_authenticated():
+        user = request.user
+        for profile in Profile.objects.all():
+            if profile.user == user:
+                user_profile = profile
+        block_list = user_profile.blocked.all()
+        template = loader.get_template('search/search.html')
+        type_list = Ing_Type.objects.all()
+        ingredient_list = Ingredient.objects.all()
+        context ={
+            'block_list': block_list,
+            'type_list': type_list,
+            'ingredient_list': ingredient_list
+        }
+        return HttpResponse(template.render(context,request))
+    else:
+        return redirect('index')
 
 # sign-up page view
 def signup(request):
+    if request.user.is_authenticated():
+        return redirect('profile')
     if request.method == 'POST':
         form = NewUserForm(request.POST)
         if form.is_valid():
