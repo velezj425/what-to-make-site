@@ -8,6 +8,7 @@
             <h3>{{ user.username }}'s Profile</h3>
         </div>
         <a href="{% url 'query' %}"><button type="button">Search Recipes</button></a>
+        <a href="{% url 'edit_profile' %}"><button type="button">Edit Profile</button></a>
         <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
         <h5>Saved Recipes</h5>
         {% for saved in saved_list %}

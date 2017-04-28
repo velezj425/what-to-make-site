@@ -46,6 +46,17 @@ def profile(request):
     else:
         return redirect('index')
 
+# edit profile view
+def edit_profile(request):
+    if request.user.is_authenticated():
+        user = request.user
+        for profile in Profile.objects.all():
+            if profile.user == user:
+                user_profile = profile
+        return HttpResponse("This is the profile editing page!")
+    else:
+        return redirect('index')
+
 # search page view
 def query(request):
     if request.user.is_authenticated():
