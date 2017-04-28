@@ -3,7 +3,7 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from .forms import LoginForm, NewUserForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from search.models import *
 
 # login page view
@@ -78,17 +78,21 @@ def signup(request):
             password = form.cleaned_data.get('password')
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
-            user.authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)
             if user is None:
                 user = User.objects.create_user(username,email,password)
                 user.first_name = first_name
                 user.last_name = last_name
                 user.save()
+                user = authenticate(username=username, password=password)
+                login(request,user)
+                profile = Profile(user=user)
+                profile.save()
                 return redirect('profile')
             else: 
                 return redirect('index')
         else:
-            return HttpResponse("invalid")
+            return redirect('signup')
     else:
         form = NewUserForm()
     return render(request,'search/signup.html',{'form':form})
