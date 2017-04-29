@@ -53,7 +53,7 @@ def edit_profile(request):
         for profile in Profile.objects.all():
             if profile.user == user:
                 user_profile = profile
-        return HttpResponse("This is the profile editing page!")
+        return render(request,'search/editProfile.html')
     else:
         return redirect('index')
 
