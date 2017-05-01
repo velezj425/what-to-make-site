@@ -53,7 +53,17 @@ def edit_profile(request):
         for profile in Profile.objects.all():
             if profile.user == user:
                 user_profile = profile
-        return render(request,'search/editProfile.html')
+        template = loader.get_template('search/editProfile.html')
+        type_list = Ing_Type.objects.all()
+        ing_list = Ingredient.objects.all()
+        context = {
+            'profile': user_profile,
+            'saved_recipes': user_profile.saved.all(),
+            'type_list': type_list,
+            'ing_list': ing_list,
+            'block_list': user_profile.blocked.all()
+        }
+        return HttpResponse(template.render(context,request))
     else:
         return redirect('index')
 

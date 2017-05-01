@@ -10,5 +10,28 @@
         <a href="{% url 'query' %}"><button type="button">Search Recipes</button></a>
         <a href="{% url 'profile' %}"><button type="button">Profile</button></a>
         <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
+        <div class="main">
+            <h4>Saved Recipes</h4>
+            <form method="POST">
+                {% csrf_token %}
+                {% for recipe in saved_recipes %}
+                   {{ recipe }} <input type="checkbox" name="recipe" value="{{ recipe }}">
+                {% endfor %}
+                <br><br><input type="submit" value="Delete"><br><br>
+            </form>
+            <h4>Block Ingredients</h4>
+            <form method="POST">
+                {% csrf_token %}
+                {% for type in type_list %}
+                    <br><h5>{{ type }}</h5>
+                    {% for ing in ing_list %}
+                        {% if ing.ing_type == type %}
+                            {{ ing }} <input type="checkbox" name="ingredient" value="{{ ing }}">
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <br><br><input type="submit" value="Block">
+            </form> 
+        </div>
     </body>
 </html>
