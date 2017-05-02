@@ -5,6 +5,8 @@ from .forms import LoginForm, NewUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from search.models import *
+from googleapiclient.discovery import build
+
 
 # login page view
 def index(request):
@@ -84,6 +86,36 @@ def query(request):
             'ingredient_list': ingredient_list
         }
         return HttpResponse(template.render(context,request))
+    else:
+        return redirect('index')
+
+# search result page
+def result(request):
+    if request.user.is_authenticated() and request.method == 'POST':
+        service = build("customsearch", "v1", developerKey="AIzaSyATAPIGxR0mMdd6XM7QAjg5zfFcONRBNGU")
+        user = request.user
+        for profile in Profile.objects.all():
+            if profile.user == user:
+                user_profile = profile
+        block_list = user_profile.blocked.all()
+        template = loader.get_template('search/result.html')
+        qry = ""
+        ing_list = request.POST.getlist('ing_list')
+        for ing in ing_list:
+            qry = qry + " '" + ing.name + "'"
+        for ing in block_list:
+            qry = qry + " '-" + ing.name + "'"
+        results = service.cse().list(q=qry, cx='006834900479128639157:ow0w0hxfk7m').execute()
+        links = []
+        for res in results:
+            links.append(res.get('link'))
+        context = {
+            'results': links,
+            'profile': user_profile 
+        }
+        return HttpResponse(template.render(context,request))
+    elif request.user.is_authenticated():
+        return redirect('query')
     else:
         return redirect('index')
 
