@@ -178,3 +178,15 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+def save(request):
+    if request.method == 'POST' and request.POST:
+        saved_recipe = request.POST.getlist('recipe[]')
+        for recipe in saved_recipe:
+            new_recipe = Recipe(title=recipe.title, url=recipe.link)
+            new_recipe.save()
+            user_profile.saved.add(new_recipe)
+            user_profile.save()
+        return redirect('profile')
+    else:
+        return redirect('profile')

@@ -22,7 +22,7 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
     url = models.URLField()
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
 
     def __str__(self):
         return self.title + " (" + self.url + ")"

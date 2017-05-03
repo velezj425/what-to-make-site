@@ -6,4 +6,3 @@ def search_links(search_term, cse_id):
     url = results.get('items',[])
     
     return url
-

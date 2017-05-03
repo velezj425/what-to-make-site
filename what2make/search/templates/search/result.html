@@ -13,10 +13,13 @@
             <a href="{% url 'query' %}">Search Recipes</a>
         </div>
         <div class='content'>
-            <form method="POST">
+            <form action="/search/save/" method="POST">
+                {% csrf_token %}
                 {% for res in links %}
-                    <br><a href={{ res.formattedUrl }}>{{ res.title }}<br>
+                    <br><input type="checkbox" name="recipe[]" value={{ res }}>
+                    {{ thumbs.image}}<a href='http://{{ res.link }}'>{{ res.title }}</a><br>
                 {% endfor %}
+                <br><input type="submit" value="Save">
             </form>
         </div>
     </body>
