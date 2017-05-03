@@ -185,14 +185,10 @@ def save(request):
             if profile.user == request.user:
                 user_profile = profile
         saved_recipe = request.POST.getlist('recipe[]')
-        titles = request.POST.getlist('title[]')
-        i = 0
         for recipe in saved_recipe:
-            new_recipe = Recipe(title=titles[i], url=recipe)
+            new_recipe = Recipe(url=recipe)
             new_recipe.save()
             user_profile.saved.add(new_recipe)
-            user_profile.save()
-            i += 1
         return redirect('profile')
     else:
         return redirect('profile')
