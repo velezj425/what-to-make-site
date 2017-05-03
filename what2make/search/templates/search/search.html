@@ -16,7 +16,7 @@
             <form action="/search/result/" method="POST">
                 {% csrf_token %}
                 {% for ing_type in type_list %}
-                    <h5>{{ ing_type }}</h5>
+                    <h4>{{ ing_type }}</h4>
                     {% for ing in ingredient_list %}
                         {% if ing.ing_type == ing_type and ing not in block_list%}
                             {{ ing }}<input type="checkbox" name="ing_list[]" value={{ ing }}>
