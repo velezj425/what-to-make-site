@@ -13,9 +13,11 @@
             <a href="{% url 'query' %}">Search Recipes</a>
         </div>
         <div class='content'>
-            {% for res in links %}
-                {{ res.htmlFormattedUrl }}
-            {% endfor %}
+            <form method="POST">
+                {% for res in links %}
+                    <br><a href={{ res.formattedUrl }}>{{ res.title }}<br>
+                {% endfor %}
+            </form>
         </div>
     </body>
 </html>

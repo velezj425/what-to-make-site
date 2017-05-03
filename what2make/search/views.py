@@ -51,7 +51,33 @@ def profile(request):
 
 # edit profile view
 def edit_profile(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and request.method == 'POST':
+        user = request.user
+        for profile in Profile.objects.all():
+            if profile.user == user:
+                user_profile = profile
+        ing_list = Ingredient.objects.all()
+        recipe_list = request.POST.getlist('recipe[]')
+        ing_toBlock = request.POST.getlist('ing_toBlock[]')
+        ing_toUnblock = request.POST.getlist('unblock[]')
+
+        for recipe in recipe_list:
+            for rec in user_profile.saved.all():
+                if recipe == rec.title:
+                    user_profile.saved.remove(rec)
+
+        for block in ing_toBlock:
+            for ing in ing_list:
+                if block == ing.name:
+                    user_profile.blocked.add(ing)
+        
+        for unblock in ing_toUnblock:
+            for block in user_profile.blocked.all():
+                if unblock == block.name:
+                    user_profile.blocked.remove(block)
+
+        return redirect('edit_profile')
+    elif request.user.is_authenticated():
         user = request.user
         for profile in Profile.objects.all():
             if profile.user == user:
@@ -101,11 +127,11 @@ def result(request):
         block_list = user_profile.blocked.all()
         template = loader.get_template('search/result.html')
         qry = ""
-        ing_list = request.POST.getlist('ing_list')
+        ing_list = request.POST.getlist('ing_list[]')
         for ing in ing_list:
-            qry = qry + " '" + ing.name + "'"
+            qry = qry + " '" + ing + "'"
         for ing in block_list:
-            qry = qry + " '-" + ing.name + "'"
+            qry = qry + " -" + ing.name 
         links = search_links(qry, '006834900479128639157:ow0w0hxfk7m')
         context = {
             'links': links,

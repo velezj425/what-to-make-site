@@ -5,5 +5,5 @@ def search_links(search_term, cse_id):
     results = service.cse().list(q=search_term, cx=cse_id).execute()
     url = results.get('items',[])
     
-    return results
+    return url
 

@@ -19,7 +19,7 @@
                     <h5>{{ ing_type }}</h5>
                     {% for ing in ingredient_list %}
                         {% if ing.ing_type == ing_type and ing not in block_list%}
-                            {{ ing }}<input type="checkbox" name="ing_list[]" value="{{ ing }}">
+                            {{ ing }}<input type="checkbox" name="ing_list[]" value={{ ing }}>
                         {% endif %}
                     {% endfor %}
                 {% endfor %}

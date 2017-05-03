@@ -12,28 +12,45 @@
             <a href="{% url 'edit_profile' %}">Settings</a>
             <a href="{% url 'query' %}">Search Recipes</a>
         </div>
-        <div class='content'>
-            <h4>Saved Recipes</h4>
+        <div class='content' id='saved'>
+            <h3>Saved Recipes</h3>
             <form method="POST">
                 {% csrf_token %}
                 {% for recipe in saved_recipes %}
-                   {{ recipe }} <input type="checkbox" name="recipe" value="{{ recipe }}">
+                    {{ recipe }} <input type="checkbox" name="recipe[]" value={{ recipe }}>
                 {% endfor %}
                 <br><br><input type="submit" value="Delete"><br><br>
             </form>
-            <h4>Block Ingredients</h4>
+        </div>
+        <div class='content' id='block'>
+            <h3>Block Ingredients</h3>
             <form method="POST">
                 {% csrf_token %}
                 {% for type in type_list %}
-                    <br><h5>{{ type }}</h5>
+                    <br><h4>{{ type }}</h4>
                     {% for ing in ing_list %}
-                        {% if ing.ing_type == type %}
-                            {{ ing }} <input type="checkbox" name="ingredient" value="{{ ing }}">
+                        {% if ing.ing_type == type and ing not in block_list %}
+                            {{ ing }} <input type="checkbox" name="ing_toBlock[]" value={{ ing }}>
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
                 <br><br><input type="submit" value="Block">
             </form> 
+        </div>
+        <div class='content' id='unblock'>
+            <h3>Unblock Ingredients</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {% for type in type_list %}
+                    <br><h4>{{ type }}</h4>
+                    {% for ing in block_list %}
+                        {% if ing.ing_type == type %}
+                            {{ ing }} <input type="checkbox" name="unblock[]" value={{ ing }}>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <br><br><input type="submit" value="Unblock">
+            </form>
         </div>
     </body>
 </html>
