@@ -14,7 +14,7 @@
         <div class='content'>
             <h3>Saved Recipes</h3>
             {% for saved in saved_list %}
-                <p>{{ saved }}</p>
+                <a href='http://{{ saved.url }}'>{{saved}}</a><br><br>
             {% endfor %}
             <h3>Blocked Ingredients</h3>
             {% for blocked in block_list %}

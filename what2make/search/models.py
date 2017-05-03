@@ -20,7 +20,7 @@ class Ingredient(models.Model):
 
 # recipes model
 class Recipe(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=True)
     url = models.URLField()
     ingredients = models.ManyToManyField(Ingredient, blank=True)
 

@@ -16,8 +16,9 @@
             <form action="/search/save/" method="POST">
                 {% csrf_token %}
                 {% for res in links %}
-                    <br><input type="checkbox" name="recipe[]" value={{ res }}>
-                    {{ thumbs.image}}<a href='http://{{ res.link }}'>{{ res.title }}</a><br>
+                    <br><input type="checkbox" name="recipe[]" value={{ res.formattedUrl }} enctype="multipart/form-data">
+                    {{ res.image }}<a href='http://{{ res.formattedUrl }}'>{{ res.title }}</a><br>
+                    <input type="hidden" name="title[]" value={{ res.title }} enctype="multipart/form-data">
                 {% endfor %}
                 <br><input type="submit" value="Save">
             </form>
