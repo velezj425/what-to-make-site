@@ -1,39 +1,43 @@
-<html>
+{% load static %}
+
+<html class='page'>
     <head>
         <title>What to Make | Search</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'search/style.css' %}" />
     </head>
     <body>
-        <div class='title'>
-            <h1>What to Make</h1>
-            <h3>Search</h3>
+        <div class='navbar'>
+            <a href="{% url 'profile' %}" id='profLink'>What to Make</a>
+            <a href="{% url 'logout_view' %}">Log-Out</a>
+            <a href="{% url 'edit_profile' %}">Settings</a>
+            <a href="{% url 'query' %}">Search Recipes</a>
         </div>
-        <a href="{% url 'profile' %}"><button type="button">Profile</button></a>
-        <a href="{% url 'edit_profile' %}"><button type="button">Edit Profile</button></a>
-        <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
-        <form action="/search/result/" method="POST">
-            {% csrf_token %}
-            {% for ing_type in type_list %}
-                <h5>{{ ing_type }}</h5>
-                {% for ing in ingredient_list %}
-                    {% if ing.ing_type == ing_type and ing not in block_list%}
-                        {{ ing }}<input type="checkbox" name="ing_list[]" value="{{ ing }}">
-                    {% endif %}
+        <div class='content'>
+            <form action="/search/result/" method="POST">
+                {% csrf_token %}
+                {% for ing_type in type_list %}
+                    <h5>{{ ing_type }}</h5>
+                    {% for ing in ingredient_list %}
+                        {% if ing.ing_type == ing_type and ing not in block_list%}
+                            {{ ing }}<input type="checkbox" name="ing_list[]" value="{{ ing }}">
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-            <br><br><button type="submit">Search</button><br>
-        </form>
-        <script>
-            (function() {
-                var cx = '006834900479128639157:ow0w0hxfk7m';
-                var gcse = document.createElement('script');
-                gcse.type = 'text/javascript';
-                gcse.async = true;
-                gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(gcse, s);
-            })();
-        </script>
-        <gcse:searchbox></gcse:searchbox>
-        <gcse:search></gcse:search>
+                <br><br><button type="submit">Search</button><br>
+            </form>
+            <script>
+                (function() {
+                    var cx = '006834900479128639157:ow0w0hxfk7m';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                })();
+            </script>
+            <gcse:searchbox></gcse:searchbox>
+            <gcse:search></gcse:search>
+        </div>
     </body>
 </html>

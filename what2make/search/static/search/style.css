@@ -1,0 +1,45 @@
+.validate {
+    background: white url("images/background.jpg") no-repeat center fixed;
+    background-size: cover;
+}
+
+#loginContent {
+    background-color: #DDD;
+    text-align: center;
+}
+
+.page {
+    background-color: #9099a2;
+}
+
+.navbar {
+    background-color: #FFF;
+    overflow: hidden;
+}
+
+#profLink {
+    float: left;
+    display: block-inline;
+}
+.navbar a {
+    float: right;
+    display: block;
+    color: #000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    background-color: ;
+}
+
+.navbar a:hover {
+    background-color: darkorange;   
+}
+
+.navbar a:active {
+    background-color: #96858f;
+}
+
+.content {
+    background-color: #d5d5d5;
+}

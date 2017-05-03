@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from search.models import *
 from googleapiclient.discovery import build
+from googlesearch import *
 
 
 # login page view
@@ -22,9 +23,9 @@ def index(request):
                 login(request,user)
                 return redirect('profile')
             else:
-                return HttpResponse("not a user")
+                return redirect('index')
         else:
-            return HttpResponse("invalid form")
+            return redirect('index')
     else:
         form = LoginForm()
     return render(request,'search/index.html',{'form':form})
@@ -105,12 +106,9 @@ def result(request):
             qry = qry + " '" + ing.name + "'"
         for ing in block_list:
             qry = qry + " '-" + ing.name + "'"
-        results = service.cse().list(q=qry, cx='006834900479128639157:ow0w0hxfk7m').execute()
-        links = []
-        for res in results:
-            links.append(res.get('link'))
+        links = search_links(qry, '006834900479128639157:ow0w0hxfk7m')
         context = {
-            'results': links,
+            'links': links,
             'profile': user_profile 
         }
         return HttpResponse(template.render(context,request))

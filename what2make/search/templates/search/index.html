@@ -1,13 +1,14 @@
-<html>
+{% load static %}
+
+<html class='validate'>
     <head>
         <title>What to Make | Find your Recipe!</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'search/style.css' %}" />
     </head>
     <body>
-        <div class='title'>
+        <div id='loginContent'>
             <h1>What to Make</h1>
             <h3>Find your Recipe!</h3>
-        </div>
-        <div class='introBody'>
             <form method="post">
                 {% csrf_token %}
                 {{form.as_p}}

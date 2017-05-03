@@ -1,22 +1,25 @@
-<html>
+{% load static %}
+<html class='page'>
     <head>
         <title>What to Make | Profile</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'search/style.css' %}" />
     </head>
     <body>
-        <div class='title'>
-            <h1>What to Make</h1>
-            <h3>{{ user.username }}'s Profile</h3>
+        <div class='navbar'>
+            <a href="{% url 'profile' %}" id='profLink'>What to Make</a>
+            <a href="{% url 'logout_view' %}">Log-Out</a>
+            <a href="{% url 'edit_profile' %}">Settings</a>
+            <a href="{% url 'query' %}">Search Recipes</a>
         </div>
-        <a href="{% url 'query' %}"><button type="button">Search Recipes</button></a>
-        <a href="{% url 'edit_profile' %}"><button type="button">Edit Profile</button></a>
-        <a href="{% url 'logout_view' %}"><button type="button">Log-Out</button></a>
-        <h5>Saved Recipes</h5>
-        {% for saved in saved_list %}
-            <p>{{ saved }}</p>
-        {% endfor %}
-        <h5>Blocked Ingredients</h5>
-        {% for blocked in block_list %}
-            <p>{{ blocked }}</p>
-        {% endfor %}
+        <div class='content'>
+            <h3>Saved Recipes</h3>
+            {% for saved in saved_list %}
+                <p>{{ saved }}</p>
+            {% endfor %}
+            <h3>Blocked Ingredients</h3>
+            {% for blocked in block_list %}
+                <p>{{ blocked }}</p>
+            {% endfor %}
+        </div>
     </body>
 </html>
