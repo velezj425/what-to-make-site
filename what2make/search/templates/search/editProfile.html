@@ -17,7 +17,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {% for recipe in saved_recipes %}
-                    <input type="checkbox" name="recipe[]" value={{ recipe }}>{{ recipe }}<br><br>
+                    <input type="checkbox" name="recipe[]" value={{ recipe.url }}>{{ recipe }}<br><br>
                 {% endfor %}
                 <br><input type="submit" value="Delete"><br><br>
             </form>

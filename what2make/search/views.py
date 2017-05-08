@@ -63,7 +63,7 @@ def edit_profile(request):
 
         for recipe in recipe_list:
             for rec in user_profile.saved.all():
-                if recipe == rec.title:
+                if recipe == rec.url:
                     user_profile.saved.remove(rec)
 
         for block in ing_toBlock:

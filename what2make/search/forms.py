@@ -10,4 +10,3 @@ class NewUserForm(forms.Form):
     first_name = forms.CharField(label='First Name', widget=forms.TextInput())
     last_name = forms.CharField(label='Last Name', widget=forms.TextInput())
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
-    recheck_pass = forms.CharField(label='Re-Enter Password', widget=forms.PasswordInput())
