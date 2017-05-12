@@ -16,12 +16,13 @@
             <form action="/search/result/" method="POST">
                 {% csrf_token %}
                 {% for ing_type in type_list %}
-                    <h4>{{ ing_type }}</h4>
+                    <h3>{{ ing_type }}</h3>
                     {% for ing in ingredient_list %}
                         {% if ing.ing_type == ing_type and ing not in block_list%}
-                            {{ ing }}<input type="checkbox" name="ing_list[]" value={{ ing }}>
+                            {{ ing }}<input type="checkbox" name="ing_list[]" value={{ ing }}>&emsp;
                         {% endif %}
                     {% endfor %}
+                    <br><br>
                 {% endfor %}
                 <br><br><button type="submit">Search</button><br>
             </form>

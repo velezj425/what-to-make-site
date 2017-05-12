@@ -30,9 +30,9 @@
                     <br><h4>{{ type }}</h4>
                     {% for ing in ing_list %}
                         {% if ing.ing_type == type and ing not in block_list %}
-                            {{ ing }} <input type="checkbox" name="ing_toBlock[]" value={{ ing }}>
+                            {{ ing }}<input type="checkbox" name="ing_toBlock[]" value={{ ing }}>&emsp;
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %}<br><br>
                 {% endfor %}
                 <br><br><input type="submit" value="Block">
             </form> 
@@ -45,9 +45,9 @@
                     <br><h4>{{ type }}</h4>
                     {% for ing in block_list %}
                         {% if ing.ing_type == type %}
-                            {{ ing }} <input type="checkbox" name="unblock[]" value={{ ing }}>
+                            {{ ing }} <input type="checkbox" name="unblock[]" value={{ ing }}>&emsp;
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %}<br><br>
                 {% endfor %}
                 <br><br><input type="submit" value="Unblock">
             </form>
